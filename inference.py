@@ -7,36 +7,19 @@ from torchvision.transforms.functional import InterpolationMode
 from transformers import AutoModel, AutoTokenizer
 from PIL import Image
 
-from transformers.dynamic_module_utils import get_imports
-from unittest.mock import patch
-from typing import Union, List
-
 
 # Define the model name and cache directory
 model_name = "OpenGVLab/InternVL2-Llama3-76B"
 
-def fixed_get_imports(filename: Union[str, os.PathLike]) -> List[str]:
-    """Work around for https://huggingface.co/microsoft/phi-1_5/discussions/72."""
-    imports = get_imports(filename)
-    print(imports)
-    if "flash_attn" in imports:
-        imports.remove("flash_attn")
-    print(imports)
-    return imports
+# Download and load the model and tokenizer
+tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
+print("tokenizer load complete")
 
-
-with patch("transformers.dynamic_module_utils.get_imports", fixed_get_imports):
-
-    # Download and load the model and tokenizer
-    tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
-    print("tokenizer done")
-    
-    model = AutoModel.from_pretrained(
-        model_name,
-        torch_dtype=torch.bfloat16,
-        trust_remote_code=True).eval()
-    
-    print("model done")
+model = AutoModel.from_pretrained(
+    model_name,
+    torch_dtype=torch.bfloat16,
+    trust_remote_code=True).eval()
+print("model load complete")
 
 generation_config = dict(max_new_tokens=1024, do_sample=False)
 

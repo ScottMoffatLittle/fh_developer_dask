@@ -21,12 +21,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # ENV CUDA_HOME=/usr/local/cuda
 
 # Install flash_attn separately to handle CUDA dependencies
-# RUN pip install --no-cache-dir flash_attn
+RUN pip install --no-cache-dir flash_attn
 
 # Run the inference script by default
 CMD ["python", "/app/inference.py"]
-
-
-
-
-# torch.__version__  = 2.4.0+cu121
