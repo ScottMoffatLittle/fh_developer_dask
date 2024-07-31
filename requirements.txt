@@ -1,0 +1,9 @@
+numpy<2
+torch==2.2.2
+torchvision
+transformers==4.37.2
+nltk
+packaging
+pillow
+einops==0.6.1
+timm==0.9.12
