@@ -1,4 +1,4 @@
-FROM python:3.9-slim
+FROM pytorch/pytorch:2.2.2-cuda11.7-cudnn8-runtime
 
 WORKDIR /app
 
@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y \
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Set the CUDA_HOME environment variable
-# ENV CUDA_HOME=/usr/local/cuda
+ENV CUDA_HOME=/usr/local/cuda
 
 # Install flash_attn separately to handle CUDA dependencies
 RUN pip install --no-cache-dir flash_attn
